@@ -38,8 +38,25 @@ This project demonstrates the configuration of a simulated network with VLANs, r
 - Git & GitHub (for version control)
 
 ## Network Topology
-- 1 Router
-- 2 Switches
-- 4 PCs
-- 1 Server (DHCP)
-- 1 Wireless Router + 1 Laptop
+| Device | Quantity | 
+|---------|--------|
+- |Router (Cisco 1941)| 1 |
+- |Switches (Cisco Catalyst 2960)| 2 |
+- |PCs | 6 |
+- |Server (DHCP)| 1 |
+- |Wireless Router (for wireless connectivity)| 1 |
+- |Laptop (to connect the wireless network)| 1|
+
+## IP Address Scheme
+- VLAN 10 (Marketing-Department): 192.168.10.0/24
+- VLAN 20 (IT-Department): 192.168.20.0/24
+- VLAN 30 (Management-Department): 192.168.30.0/24
+- Wireless : 192.168.40.0/24
+
+| VLAN |	Subnet |	Gateway |	DHCP Range |
+|-----------------|----------------|--------------|---------------------|
+|VLAN 10(Product-Department)|192.168.10.0/24|192.168.10.1|	192.168.10.10 - 192.168.10.50|
+|VLAN 20 (IT-Department)|	192.168.20.0/24|192.168.20.1|	192.168.20.10 - 192.168.20.50|
+|VLAN 30 (Management)|	192.168.30.0/24|	192.168.30.1|	192.168.30.10 - 192.168.30.50|
+|Wireless (VLAN 40)|	192.168.40.0/24|	192.168.40.1|	DHCP from Wireless Router|
+

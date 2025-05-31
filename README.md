@@ -1,5 +1,5 @@
-# Networking-Lab: VLAN-DHCP-NAT-ACL-Configuration
-**Welcome to the Networking Lab Project to demonstrate VLAN, DHCP, NAT, and ACL Configuration**
+# Networking-Lab: VLAN-DHCP-ACL-Configuration
+**Welcome to the Networking Lab Project to demonstrate VLAN, DHCP,and ACL Configuration**
 ## Project Overview
 A comprehensive Packet Tracer project demonstrating core networking concepts, including:  
 - VLANs (Virtual Land Area Networks)  
@@ -35,7 +35,7 @@ This project demonstrates the configuration of a simulated network with VLANs, r
 | Device | Quantity | Purpose |
 |---------|--------|------------------|
 |Router (Cisco 2911)| 1 | Inter-VLAN Routing, DHCP & ACLs Configurations |
-|Multilayer Switch (3650-24PS) | Central distribution/trunk switch
+|Multilayer Switch (3650-24PS) | 1 | Central distribution/trunk switch
 |Switches (Cisco Catalyst 2960)| 3 | Connect end devices, assign VLANs, forward traffic to trunk uplinks
 |Laptops | 8 | End devices |
 
@@ -47,8 +47,8 @@ This project demonstrates the configuration of a simulated network with VLANs, r
 |VLAN 30 (HR-Department)|	192.168.30.0/24|	192.168.30.1|	192.168.30.11 - 192.168.30.50|
 
 # Step-by-Step Configuration of the Simulated Network in Cisco Packet Tracer
-## I. Network Design
-## STEP 1: Open Cisco Packet Tracer and Set Up the Topology
+## STEP 1: Network Design
+### Open Cisco Packet Tracer and Set Up the Topology
 - Launch Cisco Packet Tracer.
 On the open blank space: 
 - Click "End Devices" > click and drop 8 Laptops into the setup 
@@ -82,7 +82,9 @@ Multilayer Switch to the Router using a copper straight-through cable
  - On the physical session, click on AC-POWER-SUPPLY and drag to an empty space in the Switch Physical Device View
 
 ## STEP 4: Create VLANs and assign ports on the Access Switches (2960-24TT)
-### Create VLAN 10 on Switch 1
+### i. Create VLAN 10 on Switch 1
+- click on the Switch 1 device
+- enter into the CLI
 
 ```bash
 Switch# configure terminal
@@ -91,7 +93,7 @@ Switch(config-vlan)# name Operations-Department
 Switch(config-vlan)# exit
 ```
 
-## STEP 2: Assign Ports to VLAN 10 (Fa0/2–Fa0/24)
+### Assign Ports to VLAN 10 (Fa0/2–Fa0/24)
 
 ```bash
 Switch# configure terminal
@@ -101,7 +103,7 @@ Switch(config-if-range)# switchport access vlan 10
 Switch(config-if-range)# exit
 ```
 
-## STEP 3: Make Fa0/1 a Trunk Port on Switch 1
+### Make Fa0/1 a Trunk Port on Switch 1
 
 ```bash
 Switch(config)# int fa0/1
@@ -111,7 +113,9 @@ Switch(config)# do wr
 Switch(config)# exit
 ```
 
-## STEP 4: Create VLAN 20 on Switch 2
+### ii. Create VLAN 20 on Switch 2
+- click on the Switch 2 device
+- enter into the CLI
 
 ```bash
 Switch> enable
@@ -141,7 +145,9 @@ Switch(config)# do wr
 Switch(config)# exit
 ```
 
-## STEP 5: Create VLAN 30 on Switch 3
+### iii. Create VLAN 30 on Switch 3
+- click on the Switch 3 device
+- enter into the CLI
 
 ```bash
 Switch> enable
@@ -150,7 +156,7 @@ Switch(config)# vlan 30
 Switch(config-vlan)# name HR-Department
 Switch(config-vlan)# exit
 Switch(config)# exit
-Switch# show vlan brief
+Switch# show vlan brief !To see the created vlan
 ```
 
 ### Assign Ports to VLAN 30 (Fa0/2–Fa0/24)
@@ -173,7 +179,9 @@ Switch(config)# do wr
 Switch(config)# exit
 ```
 
-## STEP 6: Configure VLANs on the Multilayer Switch
+## STEP 5: Configure VLANs on the Multilayer Switch
+- click on the Multilayer switch device
+- enter into the CLI
 
 ```bash
 Switch> enable
@@ -191,7 +199,8 @@ Switch(config)# exit
 Switch# show vlan brief
 ```
 
-## STEP 7: Configure Trunks on the Multilayer Switch
+### Configure Trunks on the Multilayer Switch
+The port you choose on the Multilayer that connects to the Access Switches and Router
 
 ```bash
 Switch(config)# int range gig1/0/1-4
@@ -201,7 +210,8 @@ Switch(config)# do wr
 Switch(config)# exit
 ```
 
-## STEP 8: Configure Router Subinterfaces for Inter-VLAN Routing
+## STEP 6: Configure Router Subinterfaces for Inter-VLAN Routing
+Identify the interface connected to the router (Gig0/1)
 
 ```bash
 Router> enable
@@ -211,6 +221,8 @@ Router(config-if)# no shutdown
 Router(config-if)# exit
 ```
 
+### Create Subinterface according to the VLAN IDs (10, 20, 30)
+- Router CLI
 ### VLAN 10 Subinterface
 
 ```bash
@@ -235,9 +247,9 @@ Router(config-subif)# encapsulation dot1Q 30
 Router(config-subif)# ip address 192.168.30.1 255.255.255.0
 ```
 
-## STEP 9: Create DHCP Pools
-
-### Operations VLAN 10
+## STEP 7: Create DHCP Pools on the Router CLI
+This will automatically assign ip addresses to the devices on the network
+### Operations VLAN 10 Pool
 
 ```bash
 Router(config)# service dhcp
@@ -248,7 +260,7 @@ Router(dhcp-config)# dns-server 192.168.10.1
 Router(dhcp-config)# exit
 ```
 
-### Finance VLAN 20
+### Finance VLAN 20 Pool
 
 ```bash
 Router(config)# ip dhcp pool finance-depart
@@ -258,7 +270,7 @@ Router(dhcp-config)# dns-server 192.168.20.1
 Router(dhcp-config)# exit
 ```
 
-### HR VLAN 30
+### HR VLAN 30 Pool
 
 ```bash
 Router(config)# ip dhcp pool hr-depart
@@ -269,7 +281,7 @@ Router(dhcp-config)# exit
 Router(config)# do wr
 ```
 
-## STEP 10: Exclude Static IP Ranges
+## STEP 9: Exclude ranges of IP addresses that should not be assigned dynamically
 
 ```bash
 Router(config)# ip dhcp excluded-address 192.168.10.1 192.168.10.10
@@ -279,36 +291,40 @@ Router(config)# do wr
 Router(config)# exit
 ```
 
-## STEP 11: Enable DHCP on Laptops
+## STEP 10: Enable DHCP on End devices (Laptops) 
+- Click Laptop > Desktop > IP Configuration
+- Set to **DHCP**
 
-* Click Laptop > Desktop > IP Configuration
-* Set to **DHCP**
-
-## STEP 12: Test Inter-VLAN Routing
+## STEP 11: Test Inter-VLAN Routing by Pinging devices across VLANs
+Click on the laptop device > Choose Desktop > Command Line
 
 ```bash
 ping 192.168.10.12
 ping 192.168.20.11
 ping 192.168.30.13
 ```
+from Laptop 1
 
-## STEP 13: Configure ACLs to Block HTTP from VLAN 30
+Repeat for other laptop devices to test connectivity across the vlans.
 
+## STEP 12: Access Control  Lists  (ACLs ) Configuration on Router
+Goal: 
+- Blocks HTTP traffic from HR (VLAN 30) to both Operations (VLAN 10) and Finance (VLAN 20)
+-  Allows all other traffic (including pings, DNS, HTTPS, file shares, etc.) between all VLANs
+
+We will be configuring an extended ACLs.
+
+On Router CLI
 ```bash
 Router> enable
 Router# configure terminal
-
-! Block HTTP from HR to Operations
-access-list 110 deny tcp 192.168.30.0 0.0.0.255 192.168.10.0 0.0.0.255 eq 80
-
-! Block HTTP from HR to Finance
-access-list 110 deny tcp 192.168.30.0 0.0.0.255 192.168.20.0 0.0.0.255 eq 80
-
-! Permit all other traffic
-access-list 110 permit ip any any
+Router(config)# access-list 110 deny tcp 192.168.30.0 0.0.0.255 192.168.10.0 0.0.0.255 eq 80
+Router(config)# access-list 110 deny tcp 192.168.30.0 0.0.0.255 192.168.20.0 0.0.0.255 eq 80
+Router(config)# access-list 110 permit ip any any
 ```
 
-### Apply ACL to VLAN 30 Subinterface
+### Apply ACL to the HR VLAN 30 Subinterface 
+Identify subinterface on the router
 
 ```bash
 Router(config)# interface gig0/1.30
@@ -316,7 +332,11 @@ Router(config-subif)# ip access-group 110 in
 Router(config-subif)# exit
 ```
 
-## STEP 14: Test ACL Rules
+## STEP 13: Test ACL Rules
+- From HR Laptop (VLAN 30) > Web Browser > Visit: `http://192.168.10.12` (web server in the operation deptment - vlan 10)
 
-* From HR Laptop > Web Browser > Visit: `http://192.168.10.12` → should **fail**
-* Run `ping 192.168.10.12` → should **succeed**
+Result: Request Timeout
+Interpretation: ACL rule successfully blocking http traffic to vlan 10 & 20
+
+- Run `ping 192.168.10.12` (vlan 10 device ip) from HR (vlan 30) Laptop
+should work (ICMP is allowed) from the HR laptop in the command line

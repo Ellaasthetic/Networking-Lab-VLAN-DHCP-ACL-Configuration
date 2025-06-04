@@ -47,6 +47,7 @@ This project demonstrates the configuration of a simulated network with VLANs, r
 |VLAN 30 (HR-Department)|	192.168.30.0/24|	192.168.30.1|	192.168.30.11 - 192.168.30.50|
 
 # Step-by-Step Configuration of the Simulated Network in Cisco Packet Tracer
+![Network-Lab-Setup](assets/network-lab-setup.png)
 ## STEP 1: Network Design
 ### Open Cisco Packet Tracer and Set Up the Topology
 - Launch Cisco Packet Tracer.
@@ -83,6 +84,7 @@ Multilayer Switch to the Router using a copper straight-through cable
 
 ## STEP 4: Create VLANs and assign ports on the Access Switches (2960-24TT)
 ### i. Create VLAN 10 on Switch 1
+![VLAN-10-Creation](assets/switch1-vlan10-creation.png)
 - click on the Switch 1 device
 - enter into the CLI
 
@@ -114,6 +116,7 @@ Switch(config)# exit
 ```
 
 ### ii. Create VLAN 20 on Switch 2
+![VLAN-20-Creation](assets/switch2-vlan20-creation.png)
 - click on the Switch 2 device
 - enter into the CLI
 
@@ -146,6 +149,7 @@ Switch(config)# exit
 ```
 
 ### iii. Create VLAN 30 on Switch 3
+![VLAN-30-Creation](assets/switch3-vlan30-creation.png)
 - click on the Switch 3 device
 - enter into the CLI
 
@@ -180,6 +184,7 @@ Switch(config)# exit
 ```
 
 ## STEP 5: Configure VLANs on the Multilayer Switch
+![VLANs-Creation-Multilayer-switch](assets/multilayer-switch-vlan-creation.png)
 - click on the Multilayer switch device
 - enter into the CLI
 
@@ -211,6 +216,7 @@ Switch(config)# exit
 ```
 
 ## STEP 6: Configure Router Subinterfaces for Inter-VLAN Routing
+![Suninterfaces-Creation](assets/router-subinterfaces-creation.png)
 Identify the interface connected to the router (Gig0/1)
 
 ```bash
@@ -248,6 +254,7 @@ Router(config-subif)# ip address 192.168.30.1 255.255.255.0
 ```
 
 ## STEP 7: Create DHCP Pools on the Router CLI
+![DHCP-Pools-Creation](assets/dhcp-pool-creation.png)
 This will automatically assign ip addresses to the devices on the network
 ### Operations VLAN 10 Pool
 
@@ -282,6 +289,7 @@ Router(config)# do wr
 ```
 
 ## STEP 9: Exclude ranges of IP addresses that should not be assigned dynamically
+![Excluded-ip-ranges](assets/dhcp-pool-creation.png)
 
 ```bash
 Router(config)# ip dhcp excluded-address 192.168.10.1 192.168.10.10
@@ -292,10 +300,12 @@ Router(config)# exit
 ```
 
 ## STEP 10: Enable DHCP on End devices (Laptops) 
+![Enable-DHCP-End-devices](assets/enabled-dhcp-laptop.png)
 - Click Laptop > Desktop > IP Configuration
-- Set to **DHCP**
+- Set to **DHCP** on all devices in the set-up
 
 ## STEP 11: Test Inter-VLAN Routing by Pinging devices across VLANs
+![Ping-test](assets/ping-test.png)
 Click on the laptop device > Choose Desktop > Command Line
 
 ```bash
@@ -308,6 +318,7 @@ from Laptop 1
 Repeat for other laptop devices to test connectivity across the vlans.
 
 ## STEP 12: Access Control  Lists  (ACLs ) Configuration on Router
+![ACLS-Creation](assets/acl-rule-creation.png)
 Goal: 
 - Blocks HTTP traffic from HR (VLAN 30) to both Operations (VLAN 10) and Finance (VLAN 20)
 -  Allows all other traffic (including pings, DNS, HTTPS, file shares, etc.) between all VLANs
@@ -333,6 +344,7 @@ Router(config-subif)# exit
 ```
 
 ## STEP 13: Test ACL Rules
+![ACL-Web-browser-test](assets/acl-web-testing.png)
 - From HR Laptop (VLAN 30) > Web Browser > Visit: `http://192.168.10.12` (web server in the operation deptment - vlan 10)
 
 Result: Request Timeout
@@ -340,3 +352,4 @@ Interpretation: ACL rule successfully blocking http traffic to vlan 10 & 20
 
 - Run `ping 192.168.10.12` (vlan 10 device ip) from HR (vlan 30) Laptop
 should work (ICMP is allowed) from the HR laptop in the command line
+![ICMP-Ping-Test](assets/acl-ping-test.png)

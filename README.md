@@ -1,5 +1,7 @@
 # Networking-Lab: VLAN-DHCP-ACL-Configuration
 **Welcome to the Networking Lab Project to demonstrate VLAN, DHCP,and ACL Configuration**
+
+**To open this project lab: Download the .pkt file and open it using Cisco Packet Tracer.**
 ## Project Overview
 A comprehensive Packet Tracer project demonstrating core networking concepts, including:  
 - VLANs (Virtual Land Area Networks)  
